@@ -1,26 +1,35 @@
 #include "Player.h"
 #include<Graphics/TextureManager.h>
+#include<Input/Input.h>
+#include<Physics/RigidBody.h>
 
 
 Player::Player(Properties* props) : Character(props) {
-	m_Row = 0;
-	m_FrameCount = 5;
-	m_AnimSpeed = 80;
+
+	m_RigidBody = new RigidBody();
+	m_Animation = new Animation();
+	m_Animation->SetProps(props->TextureID, 0, 5, 80, SDL_FLIP_HORIZONTAL);
 } 
-
-
-
 
 void Player::Draw()
 {
-	TextureManager::GetInstance()->DrawFrame(m_TextureID, m_Transfrom->X, m_Transfrom->Y, m_Width, m_Height, m_Row, m_Frame);
-	//TextureManager::GetInstance()->Draw(m_TextureID, m_Transfrom->X, m_Transfrom->Y, m_Width, m_Height);
+	m_Animation->Draw(m_Transfrom->X, m_Transfrom->Y, m_Width, m_Height);
 }
 
-void Player::Update(float delteTime)
+void Player::Update(float deltaTime)
 {
-	m_Frame = (SDL_GetTicks() / m_AnimSpeed) % m_FrameCount;
-	SDL_Log("%d", m_Frame);
+	m_RigidBody->Update(deltaTime);
+
+	m_RigidBody->RemoveForce();
+
+	if (Input::GetInstance()->GetKeyDown(SDL_SCANCODE_D)) {
+		m_RigidBody->AddForceX(FORWARD * 5);
+	}
+	if (Input::GetInstance()->GetKeyDown(SDL_SCANCODE_A)) {
+		m_RigidBody->AddForceX(BACKWARD * 5);
+	}
+	m_Transfrom->TranslateX(m_RigidBody->Position().X);
+	m_Animation->Update();
 }
 
 void Player::Clean()

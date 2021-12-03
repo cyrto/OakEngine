@@ -3,6 +3,10 @@
 #define PLAYER_H
 
 #include "Character.h"
+#include <Animation/Animation.h>
+#include <Physics/RigidBody.h>
+
+
 
 class Player : public Character
 {
@@ -10,12 +14,12 @@ public:
 	Player(Properties* props);
 	
 	virtual void Draw();
-	virtual void Update(float delteTime);
+	virtual void Update(float deltaTime);
 	virtual void Clean();
 
 private:
-	int m_Row, m_Frame, m_FrameCount;
-	int m_AnimSpeed;
+	Animation* m_Animation;
+	RigidBody* m_RigidBody;
 };
 
 

@@ -4,6 +4,10 @@
 #include <Physics/Transform.h>
 #include <Object/GameObject.h>
 #include <Characters/Player.h>
+#include<Animation/Animation.h>
+#include<Input/Input.h>
+#include<Timer/Timer.h>
+#include<Map/MapParser.h>
 
 
 Engine* Engine::s_Instance = nullptr;
@@ -36,8 +40,19 @@ bool Engine::Init()
 		return false;
 	}
 
+	// load tilemap
+	if (!MapParser::GetInstance()->Load()) {
+		std::cout << "Failed to load map" << std::endl;
+		return false;
+	}
+
+	m_LevelMap = MapParser::GetInstance()->GetMap("level1");
+	if (m_LevelMap == nullptr) {
+		std::cout << "Failed to load map" << std::endl;
+		return false;
+	}
+
 	// load texture
-	//bool success = TextureManager::GetInstance()->Load("planet", "D:/Program/VisualStudioProject/OdoraEngine/Assets/Images/planet.png");
 	bool success = TextureManager::GetInstance()->Load("planet", "Assets/Images/planet.png");
 	if (!success) {
 		SDL_Log("Failed to Load texture: %s", SDL_GetError());
@@ -47,8 +62,6 @@ bool Engine::Init()
 	//load player
 	TextureManager::GetInstance()->Load("player", "Assets/Images/reading.png");
 	player = new Player(new Properties("player", 0, 0, 60, 88));
-
-	
 	return true;
 }
 
@@ -68,7 +81,9 @@ void Engine::Quit()
 
 void Engine::Update()
 {
-	player->Update(0);
+	float deltaTime = Timer::GetInstance()-> GetDeltaTime();
+	m_LevelMap->Update();
+	player->Update(deltaTime);
 }
 
 void Engine::Render()
@@ -76,7 +91,7 @@ void Engine::Render()
 	SDL_SetRenderDrawColor(m_Renderer, 124, 218, 254, 255);
 	SDL_RenderClear(m_Renderer);
 
-	//TextureManager::GetInstance()->Draw("planet", 100,100,300,300);
+	m_LevelMap->Render();
 
 	player->Draw();
 
@@ -85,13 +100,5 @@ void Engine::Render()
 
 void Engine::Events()
 {
-
-	SDL_Event event;
-	SDL_PollEvent(&event);
-	switch (event.type)
-	{
-	case SDL_QUIT:
-		Quit();
-		break;
-	}
+	Input::GetInstance()->Listen();
 }

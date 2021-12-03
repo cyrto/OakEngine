@@ -6,6 +6,8 @@
 #include<SDL.h>
 #include<SDL_image.h>
 #include<Graphics/TextureManager.h>
+#include<Map/GameMap.h>
+
 
 #define SCREEN_WIDTH 960
 #define SCREEN_HEIGHT 640
@@ -43,6 +45,7 @@ private:
 	SDL_Renderer* m_Renderer;
 
 	static Engine* s_Instance;
+	GameMap* m_LevelMap;
 };
 
 #endif // !ENGINE_H

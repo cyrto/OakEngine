@@ -19,9 +19,6 @@ public:
 
 protected:
 	std::string m_Name;
-
-
-
 private:
 
 };

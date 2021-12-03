@@ -22,6 +22,10 @@ public:
 		return Vector2D(X - v2.X, Y - v2.Y);
 	}
 
+	inline Vector2D operator*(float a) const {
+		return Vector2D(X * a, Y * a);
+	}
+
 	void Log(std::string msg = "") {
 		std::cout << msg << "(X Y) = (" << X << " " << Y << ")" << std::endl;
 	}

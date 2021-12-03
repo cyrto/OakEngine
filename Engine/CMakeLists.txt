@@ -20,8 +20,16 @@ set ( GLFW_INC "${GLFW_HOME}/include" )
 set ( GLFW_LIB "${GLFW_HOME}/lib-vc2019/glfw3dll.lib" )
 
 
-file ( GLOB root_header_files "${CMAKE_CURRENT_SOURCE_DIR}/*.h"  "${CMAKE_CURRENT_SOURCE_DIR}/**/*.h")
-file ( GLOB root_src_files "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/**/*.cpp")
+file ( GLOB root_header_files 
+"${CMAKE_CURRENT_SOURCE_DIR}/*.h"  
+"${CMAKE_CURRENT_SOURCE_DIR}/**/*.h"
+"${CMAKE_CURRENT_SOURCE_DIR}/**/**/*.h"
+)
+file ( GLOB root_src_files 
+"${CMAKE_CURRENT_SOURCE_DIR}/*.cpp" 
+"${CMAKE_CURRENT_SOURCE_DIR}/**/*.cpp"
+"${CMAKE_CURRENT_SOURCE_DIR}/**/**/*.cpp"
+)
 
 
 
