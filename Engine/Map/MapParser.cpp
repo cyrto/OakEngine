@@ -6,7 +6,7 @@ MapParser* MapParser::s_Instance = nullptr;
 
 bool MapParser::Load()
 {
-	if (!Parse("level1", "Assets/Maps/Tilemap.tmx")) {
+	if (!Parse("level1", "../Assets/Maps/Tilemap.tmx")) {
 		return false;
 	}
 	return true;

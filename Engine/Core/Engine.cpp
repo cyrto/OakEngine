@@ -8,6 +8,8 @@
 #include<Input/Input.h>
 #include<Timer/Timer.h>
 #include<Map/MapParser.h>
+#include<Camera/Camera.h>
+#include<Collision/CollisionHandler.h>
 
 
 Engine* Engine::s_Instance = nullptr;
@@ -53,15 +55,17 @@ bool Engine::Init()
 	}
 
 	// load texture
-	bool success = TextureManager::GetInstance()->Load("planet", "Assets/Images/planet.png");
-	if (!success) {
-		SDL_Log("Failed to Load texture: %s", SDL_GetError());
-		return false;
-	}
+	TextureManager::GetInstance()->Load("planet", "Assets/Images/planet.png");
 
 	//load player
 	TextureManager::GetInstance()->Load("player", "Assets/Images/reading.png");
+	TextureManager::GetInstance()->Load("bg1", "Assets/Images/bg/bg1.png");
 	player = new Player(new Properties("player", 0, 0, 60, 88));
+
+
+	//handle Camera
+	Camera::GetInstance()->SetTarget(player->GetOrigin());
+
 	return true;
 }
 
@@ -84,6 +88,7 @@ void Engine::Update()
 	float deltaTime = Timer::GetInstance()-> GetDeltaTime();
 	m_LevelMap->Update();
 	player->Update(deltaTime);
+	Camera::GetInstance()->Update(deltaTime);
 }
 
 void Engine::Render()
@@ -92,7 +97,7 @@ void Engine::Render()
 	SDL_RenderClear(m_Renderer);
 
 	m_LevelMap->Render();
-
+	TextureManager::GetInstance()->Draw("bg1", 0, 0, 620, 360);
 	player->Draw();
 
 	SDL_RenderPresent(m_Renderer);

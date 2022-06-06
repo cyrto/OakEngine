@@ -8,7 +8,7 @@
 #include"IObject.h"
 #include<Physics/Transform.h>
 #include<SDL.h>
-
+#include <Physics/Point.h>
 
 struct Properties {
 
@@ -36,16 +36,20 @@ public:
 		m_TextureID(props->TextureID), m_Height(props->Height),
 		m_Width(props->Width){
 		m_Transfrom = new Transform(props->X, props->Y);
+		float px = props->X + props->Width / 2;
+		float py = props->Y + props->Height / 2;
+		m_Origin = new Point(px, py);
 	}
 
 
-	virtual ~GameObject() {}
+	inline Point* GetOrigin() { return m_Origin; };
 
 	virtual void Draw() = 0;
 	virtual void Update(float delteTime) = 0;
 	virtual void Clean() = 0;
 
 protected:
+	Point* m_Origin;
 	Transform* m_Transfrom;
 	int m_Width, m_Height;
 	std::string m_TextureID;

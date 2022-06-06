@@ -1,7 +1,8 @@
 cmake_minimum_required (VERSION 3.8)
 
-project ("Engine")
 
+
+project ("Engine")
 
 find_package ( OpenGL REQUIRED )
 
@@ -16,6 +17,7 @@ set ( PRJ_LIBRARIES )
 set ( PRJ_INCLUDE_DIRS )
 
 
+set ( GLFW_HOME "E:/Program/cpp/glfw-3.3.5.bin.WIN64" )
 set ( GLFW_INC "${GLFW_HOME}/include" ) 
 set ( GLFW_LIB "${GLFW_HOME}/lib-vc2019/glfw3dll.lib" )
 

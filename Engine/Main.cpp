@@ -1,15 +1,13 @@
+#define SDL_MAIN_HANDLED
 #include"Core/Engine.h"
-
 #include<map>
 #include<string>
 #include<filesystem>
 #include<Timer/Timer.h>
 
 
+
 int main(int argc, char** argv) {
-
-	
-
 	bool success = Engine::GetInstance()->Init();
 	if (!success) {
 		SDL_Log("init error: %s", SDL_GetError());

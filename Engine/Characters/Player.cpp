@@ -2,7 +2,7 @@
 #include<Graphics/TextureManager.h>
 #include<Input/Input.h>
 #include<Physics/RigidBody.h>
-
+#include<Camera/Camera.h>
 
 Player::Player(Properties* props) : Character(props) {
 
@@ -29,6 +29,11 @@ void Player::Update(float deltaTime)
 		m_RigidBody->AddForceX(BACKWARD * 5);
 	}
 	m_Transfrom->TranslateX(m_RigidBody->Position().X);
+
+
+	m_Origin->X = m_Transfrom->X + m_Width / 2;
+	m_Origin->Y = m_Transfrom->Y + m_Height / 2;
+
 	m_Animation->Update();
 }
 
